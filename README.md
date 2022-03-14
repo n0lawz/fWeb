@@ -1,4 +1,4 @@
-# 
+# fWeb framework
 
 private data: UserProps - object to store information about a particular user (name, age)
 
