@@ -2,8 +2,9 @@ export class Attributes<T> {
 
     constructor(private data: T) {}
 
-    get(propName: string): number | string {
-        return this.data[propName];
+    // limiting the different types that K can be. It can only ever be one of the keys of T
+    get<K extends keyof T>(key: K): T[K] {
+        return this.data[key];
     } 
     
     set(update: T): void {
