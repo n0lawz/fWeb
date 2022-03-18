@@ -2376,6 +2376,12 @@ function () {
     enumerable: false,
     configurable: true
   });
+
+  User.prototype.set = function (update) {
+    this.attributes.set(update);
+    this.events.trigger('change');
+  };
+
   return User;
 }();
 
@@ -2393,7 +2399,12 @@ var user = new Users_1.User({
   name: 'new record',
   age: 0
 });
-console.log(user.get('name'));
+user.on('change', function () {
+  console.log('user was changed');
+});
+user.set({
+  name: 'New name'
+});
 },{"./models/Users":"src/models/Users.ts"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

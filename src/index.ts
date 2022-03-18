@@ -2,5 +2,11 @@ import { User } from "./models/Users";
 
 const user = new User({ name: 'new record', age: 0});
 
-console.log(user.get('name'));
+user.on('change', () => {
+    console.log('user was changed');
+});
+
+user.set({ name: 'New name'});
+
+
 
