@@ -1,12 +1,12 @@
 import { User } from "./models/Users";
 
-const user = new User({ name: 'new record', age: 0});
+const user = new User({ id: 1 });
 
 user.on('change', () => {
-    console.log('user was changed');
+    console.log(user);
 });
 
-user.set({ name: 'New name'});
+user.fetch();
 
 
 
