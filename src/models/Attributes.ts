@@ -1,5 +1,3 @@
-import { UserProps } from "./Users";
-
 export class Attributes<T> {
 
     constructor(private data: T) {}
@@ -14,12 +12,3 @@ export class Attributes<T> {
     }
 }
 
-const attrs = new Attributes<UserProps>({
-    id: 5,
-    age: 20,
-    name: 'yes'
-})
-
-const name = attrs.get('name');
-const age = attrs.get('age');
-const id = attrs.get('id');
