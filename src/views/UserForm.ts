@@ -1,6 +1,7 @@
 import { User } from '../models/User';
+import { View } from './View';
 
-export class UserForm {
+export class UserForm extends View {
 
     // these are all the events currently available on UserForm
     eventsMap(): { [key: string]: () => void} {
