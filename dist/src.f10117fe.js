@@ -128,6 +128,7 @@ exports.UserForm = void 0;
 var UserForm =
 /** @class */
 function () {
+  // within the constructor, we make sure that anytime change is called on User we call bindModel
   function UserForm(parent, model) {
     var _this = this;
 
@@ -137,7 +138,18 @@ function () {
     this.onSetAgeClick = function () {
       _this.model.setRandomAge();
     };
-  } // these are all the events currently available on UserForm
+
+    this.bindModel();
+  } // function called in constructor to call render function anytime change is called
+
+
+  UserForm.prototype.bindModel = function () {
+    var _this = this;
+
+    this.model.on('change', function () {
+      _this.render();
+    });
+  }; // these are all the events currently available on UserForm
 
 
   UserForm.prototype.eventsMap = function () {
@@ -149,7 +161,7 @@ function () {
 
   UserForm.prototype.template = function () {
     return "\n            <div>\n                <h1>User Form</h1>\n                <div>User name: ".concat(this.model.get('name'), "</div>\n                <div>User age: ").concat(this.model.get('age'), "</div>\n                <input />\n                <button>Click me</button>\n                <button class='set-age'>Set Random Age</button>\n            </div> \n        ");
-  }; // a function
+  }; // a function that binds events in eventsMap to html elements
 
 
   UserForm.prototype.bindEvents = function (fragment) {
@@ -168,9 +180,12 @@ function () {
     for (var eventKey in eventsMap) {
       _loop_1(eventKey);
     }
-  };
+  }; // a function that is taking in our template and rendering html to the dom
+
 
   UserForm.prototype.render = function () {
+    // empties out the parent element so we do not generate new HTML, rather we replace what is there
+    this.parent.innerHTML = '';
     var templateElement = document.createElement('template');
     templateElement.innerHTML = this.template();
     this.bindEvents(templateElement.content);
@@ -199,7 +214,9 @@ function () {
     this.on = this.events.on;
     this.trigger = this.events.trigger;
     this.get = this.attributes.get;
-  }
+  } // anytime we change any properties on an instance of a model, we also trigger change
+  // change lets other parts of our application know something changed so we can re-render our view
+
 
   Model.prototype.set = function (update) {
     this.attributes.set(update);

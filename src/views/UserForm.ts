@@ -1,7 +1,17 @@
 import { User } from '../models/User';
 
 export class UserForm {
-    constructor(public parent: Element, public model: User) {}
+    // within the constructor, we make sure that anytime change is called on User we call bindModel
+    constructor(public parent: Element, public model: User) {
+        this.bindModel();
+    }
+
+    // function called in constructor to call render function anytime change is called
+    bindModel(): void {
+        this.model.on('change', () => {
+            this.render();
+        })
+    }
 
     // these are all the events currently available on UserForm
     eventsMap(): { [key: string]: () => void} {
@@ -28,7 +38,7 @@ export class UserForm {
         `;
     }
 
-    // a function
+    // a function that binds events in eventsMap to html elements
     bindEvents(fragment: DocumentFragment): void {
         const eventsMap = this.eventsMap();
 
@@ -41,7 +51,10 @@ export class UserForm {
         }
     }
 
+    // a function that is taking in our template and rendering html to the dom
     render(): void {
+        // empties out the parent element so we do not generate new HTML, rather we replace what is there
+        this.parent.innerHTML = '';
         const templateElement = document.createElement('template');
         templateElement.innerHTML = this.template();
 

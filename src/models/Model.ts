@@ -31,6 +31,9 @@ export class Model<T extends HasId> {
     trigger = this.events.trigger;
     get = this.attributes.get;
 
+
+    // anytime we change any properties on an instance of a model, we also trigger change
+    // change lets other parts of our application know something changed so we can re-render our view
     set(update: T): void {
         this.attributes.set(update);
         this.events.trigger('change');
