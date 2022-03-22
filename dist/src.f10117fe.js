@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/Views/UserForm.ts":[function(require,module,exports) {
+})({"src/views/UserForm.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -133,7 +133,21 @@ function () {
     var _this = this;
 
     this.parent = parent;
-    this.model = model; // click event for set age button
+    this.model = model;
+
+    this.onSetNameClick = function () {
+      var input = _this.parent.querySelector('input'); // type guard to remove null type union on input.
+
+
+      if (input) {
+        var name = input.value;
+
+        _this.model.set({
+          name: name
+        });
+      }
+    }; // click event for set age button
+
 
     this.onSetAgeClick = function () {
       _this.model.setRandomAge();
@@ -154,13 +168,14 @@ function () {
 
   UserForm.prototype.eventsMap = function () {
     return {
-      'click:.set-age': this.onSetAgeClick
+      'click:.set-age': this.onSetAgeClick,
+      'click:.set-name': this.onSetNameClick
     };
   }; // this is the html that will be generated on the page
 
 
   UserForm.prototype.template = function () {
-    return "\n            <div>\n                <h1>User Form</h1>\n                <div>User name: ".concat(this.model.get('name'), "</div>\n                <div>User age: ").concat(this.model.get('age'), "</div>\n                <input />\n                <button>Click me</button>\n                <button class='set-age'>Set Random Age</button>\n            </div> \n        ");
+    return "\n            <div>\n                <h1>User Form</h1>\n                <div>User name: ".concat(this.model.get('name'), "</div>\n                <div>User age: ").concat(this.model.get('age'), "</div>\n                <input />\n                <button class='set-name'>Change Name</button>\n                <button class='set-age'>Set Random Age</button>\n            </div> \n        ");
   }; // a function that binds events in eventsMap to html elements
 
 
@@ -2612,7 +2627,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var UserForm_1 = require("./Views/UserForm");
+var UserForm_1 = require("./views/UserForm");
 
 var User_1 = require("./models/User");
 
@@ -2620,9 +2635,15 @@ var user = User_1.User.buildUser({
   name: 'NAME',
   age: 20
 });
-var userForm = new UserForm_1.UserForm(document.getElementById('root'), user);
-userForm.render();
-},{"./Views/UserForm":"src/Views/UserForm.ts","./models/User":"src/models/User.ts"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var root = document.getElementById('root'); // type guard to ensure we have root element available 
+
+if (root) {
+  var userForm = new UserForm_1.UserForm(root, user);
+  userForm.render();
+} else {
+  throw new Error('Root element not found');
+}
+},{"./views/UserForm":"src/views/UserForm.ts","./models/User":"src/models/User.ts"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
