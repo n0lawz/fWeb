@@ -1,8 +1,10 @@
-import { User } from "../models/User";
-
-export abstract class View {
+import { Model } from "../models/Model";
+// T will have all the same properties as a model with type K loaded into it, the second generic type being passed
+// into class View is K. so when we call View, we pass in the model as the first arguement, and the set of
+// attributes that exist within that model are passed in as K
+export abstract class View<T extends Model<K>, K> {
     // within the constructor, we make sure that anytime change is called on User we call bindModel
-    constructor(public parent: Element, public model: User) {
+    constructor(public parent: Element, public model: T) {
         this.bindModel();
     }
 

@@ -123,7 +123,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.View = void 0;
+exports.View = void 0; // T will have all the same properties as a model with type K loaded into it, the second generic type being passed
+// into class View is K. so when we call View, we pass in the model as the first arguement, and the set of
+// attributes that exist within that model are passed in as K
 
 var View =
 /** @class */
