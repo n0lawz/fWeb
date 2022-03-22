@@ -129,30 +129,28 @@ var UserForm =
 /** @class */
 function () {
   function UserForm(parent, model) {
+    var _this = this;
+
     this.parent = parent;
-    this.model = model;
-  }
+    this.model = model; // click event for set age button
+
+    this.onSetAgeClick = function () {
+      _this.model.setRandomAge();
+    };
+  } // these are all the events currently available on UserForm
+
 
   UserForm.prototype.eventsMap = function () {
     return {
-      'click:button': this.onButtonClick,
-      'mouseenter:h1': this.onHeaderHover
+      'click:.set-age': this.onSetAgeClick
     };
-  };
+  }; // this is the html that will be generated on the page
 
-  UserForm.prototype.onHeaderHover = function () {
-    console.log('h1');
-  };
-
-  UserForm.prototype.onButtonClick = function () {
-    console.log('hello');
-  };
-
-  ;
 
   UserForm.prototype.template = function () {
-    return "\n            <div>\n                <h1>User Form</h1>\n                <div>User name: ".concat(this.model.get('name'), "</div>\n                <div>User age: ").concat(this.model.get('age'), "</div>\n                <input />\n                <button>Click me</button>\n            </div>\n        ");
-  };
+    return "\n            <div>\n                <h1>User Form</h1>\n                <div>User name: ".concat(this.model.get('name'), "</div>\n                <div>User age: ").concat(this.model.get('age'), "</div>\n                <input />\n                <button>Click me</button>\n                <button class='set-age'>Set Random Age</button>\n            </div> \n        ");
+  }; // a function
+
 
   UserForm.prototype.bindEvents = function (fragment) {
     var eventsMap = this.eventsMap();
@@ -2575,6 +2573,14 @@ function (_super) {
   User.buildUserCollection = function () {
     return new Collection_1.Collection(rootUrl, function (json) {
       return User.buildUser(json);
+    });
+  }; // currently used in UserForm class
+
+
+  User.prototype.setRandomAge = function () {
+    var age = Math.round(Math.random() * 100);
+    this.set({
+      age: age
     });
   };
 

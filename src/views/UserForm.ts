@@ -3,21 +3,18 @@ import { User } from '../models/User';
 export class UserForm {
     constructor(public parent: Element, public model: User) {}
 
+    // these are all the events currently available on UserForm
     eventsMap(): { [key: string]: () => void} {
         return {
-            'click:button': this.onButtonClick,
-            'mouseenter:h1': this.onHeaderHover
+            'click:.set-age': this.onSetAgeClick
         };
     }
-
-    onHeaderHover(): void {
-        console.log('h1')
+    // click event for set age button
+    onSetAgeClick = () : void => {
+      this.model.setRandomAge();
     }
 
-    onButtonClick(): void {
-        console.log('hello')
-    };
-
+    // this is the html that will be generated on the page
     template(): string {
         return `
             <div>
@@ -26,10 +23,12 @@ export class UserForm {
                 <div>User age: ${this.model.get('age')}</div>
                 <input />
                 <button>Click me</button>
-            </div>
+                <button class='set-age'>Set Random Age</button>
+            </div> 
         `;
     }
 
+    // a function
     bindEvents(fragment: DocumentFragment): void {
         const eventsMap = this.eventsMap();
 
