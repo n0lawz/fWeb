@@ -135,7 +135,12 @@ function () {
     this.parent = parent;
     this.model = model;
     this.bindModel();
-  } // function called in constructor to call render function anytime change is called
+  } // eventsMap is not required to be implemented in a child class, but it can if it wants to
+
+
+  View.prototype.eventsMap = function () {
+    return {};
+  }; // function called in constructor to call render function anytime change is called
 
 
   View.prototype.bindModel = function () {

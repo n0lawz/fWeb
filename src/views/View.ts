@@ -9,8 +9,12 @@ export abstract class View<T extends Model<K>, K> {
     }
 
     // abstract methods that tell our view class they will be available later through UserForm
-    abstract eventsMap(): { [key: string]: () => void };
     abstract template(): string;
+
+    // eventsMap is not required to be implemented in a child class, but it can if it wants to
+    eventsMap(): { [key: string]: () => void } {
+        return {};
+    }
 
     // function called in constructor to call render function anytime change is called
     bindModel(): void {
