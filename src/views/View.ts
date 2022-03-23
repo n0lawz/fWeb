@@ -48,7 +48,7 @@ export abstract class View<T extends Model<K>, K> {
 
     // a function that creates an object whose keys are the name of some region where we want to nest a view.
     // and the value is the element that will be the parent element
-    
+
     mapRegions(fragment: DocumentFragment): void {
         const regionsMap = this.regionsMap();
 
@@ -63,6 +63,10 @@ export abstract class View<T extends Model<K>, K> {
         }
     }
 
+    onRender(): void {
+        
+    }
+
     // a function that is taking in our template and rendering html to the dom
     render(): void {
         // empties out the parent element so we do not generate new HTML, rather we replace what is there
@@ -72,6 +76,8 @@ export abstract class View<T extends Model<K>, K> {
 
         this.bindEvents(templateElement.content);
         this.mapRegions(templateElement.content);
+
+        this.onRender();
 
         this.parent.append(templateElement.content);
     }
