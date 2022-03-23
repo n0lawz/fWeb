@@ -133,9 +133,15 @@ function () {
   // within the constructor, we make sure that anytime change is called on User we call bindModel
   function View(parent, model) {
     this.parent = parent;
-    this.model = model;
+    this.model = model; // a reference to some element where we want to nest a view
+
+    this.regions = {};
     this.bindModel();
-  } // eventsMap is not required to be implemented in a child class, but it can if it wants to
+  }
+
+  View.prototype.regionsMap = function () {
+    return {};
+  }; // eventsMap is not required to be implemented in a child class, but it can if it wants to
 
 
   View.prototype.eventsMap = function () {
@@ -168,6 +174,21 @@ function () {
     for (var eventKey in eventsMap) {
       _loop_1(eventKey);
     }
+  }; // a function that creates an object whose keys are the name of some region where we want to nest a view.
+  // and the value is the element that will be the parent element
+
+
+  View.prototype.mapRegions = function (fragment) {
+    var regionsMap = this.regionsMap();
+
+    for (var key in regionsMap) {
+      var selector = regionsMap[key];
+      var element = fragment.querySelector(selector);
+
+      if (element) {
+        this.regions[key] = element;
+      }
+    }
   }; // a function that is taking in our template and rendering html to the dom
 
 
@@ -177,6 +198,7 @@ function () {
     var templateElement = document.createElement('template');
     templateElement.innerHTML = this.template();
     this.bindEvents(templateElement.content);
+    this.mapRegions(templateElement.content);
     this.parent.append(templateElement.content);
   };
 
